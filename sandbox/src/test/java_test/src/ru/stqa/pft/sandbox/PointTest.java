@@ -12,9 +12,9 @@ public class PointTest {
         Point a2 = new Point(8, 1, 5,2);
         Assert.assertEquals(distance(a1, a2), 4);
 
-        Point c1 = new Point(5, 6, 8,2);
-        Point c2 = new Point(8, 1, 5,2);
-        Assert.assertEquals(Point.distance(c1, c2), 4);
+        Point c1 = new Point(5, 5, 5,5);
+        Point c2 = new Point(5, 5, 5,5);
+        Assert.assertEquals(Point.distance(c1, c2), 0);
 
     }
 }
