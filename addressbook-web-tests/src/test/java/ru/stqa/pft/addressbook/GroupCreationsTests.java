@@ -6,6 +6,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+
 import static org.testng.Assert.fail;
 
 public class GroupCreationsTests {
@@ -20,8 +22,8 @@ public class GroupCreationsTests {
         System.setProperty("webdriver.chrome.driver", "F:\\IdeaProjects\\java_stqa\\chromedriver.exe");
         driver = new ChromeDriver();
         baseUrl = "https://www.google.com/";
-        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        //js = (JavascriptExecutor) driver;
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        js = (JavascriptExecutor) driver;
     }
 
     @Test
