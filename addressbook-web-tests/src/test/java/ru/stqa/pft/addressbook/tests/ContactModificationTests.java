@@ -7,13 +7,13 @@ public class ContactModificationTests extends TestBase{
     @Test
     public void testContactModification() {
         app.getNavigationHelper().gotoContactHome();
-        app.getGroupHelper().selectContact();
-        app.getGroupHelper().initContactModification();
-        app.getGroupHelper().fillContactForm(new ContactData(
+        app.getContactHelper().selectContact();
+        app.getContactHelper().initContactModification();
+        app.getContactHelper().fillContactForm(new ContactData(
                 "Petrov", "Vasek", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
                 "ferdcvb@yandex.ru", "+79253478354"));
-        app.getGroupHelper().submitContactModification();
-        app.getGroupHelper().returnToContactPage();
+        app.getContactHelper().submitContactModification();
+        app.getContactHelper().returnToContactPage();
         app.getSessionHelper().logout();
 
     }

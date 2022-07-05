@@ -9,11 +9,11 @@ public class ContactCreationsTests extends TestBase {
     @Test
     public void testContactCreations() throws Exception {
         app.getNavigationHelper().gotoContactPage();
-        app.getGroupHelper().fillContactForm(new ContactData(
+        app.getContactHelper().fillContactForm(new ContactData(
                 "Petrov", "Vasek", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
                 "ferdcvb@yandex.ru", "+79253478354"));
-        app.getGroupHelper().submitContactCreation();
-        app.getGroupHelper().returnToContactPage();
+        app.getContactHelper().submitContactCreation();
+        app.getContactHelper().returnToContactPage();
         app.getSessionHelper().logout();
     }
 

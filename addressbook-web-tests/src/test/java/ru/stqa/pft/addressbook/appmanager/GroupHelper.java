@@ -2,7 +2,6 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 public class GroupHelper extends HelperBase{
@@ -15,30 +14,14 @@ public class GroupHelper extends HelperBase{
         click(By.linkText("group page"));
     }
 
-    public void returnToContactPage() {
-        click(By.linkText("home page"));
-    }
-
     public void submitGroupCreation() {
         click(By.name("submit"));
-    }
-
-    public void submitContactCreation() {
-        wd.findElement(By.name("submit")).click();
     }
 
     public void fillGroupForm(GroupData groupData) {
         type(By.name("group_name"), groupData.getName());
         type(By.name("group_header"), groupData.getHeader());
         type(By.name("group_footer"), groupData.getFooter());
-    }
-
-    public void fillContactForm(ContactData contactData) {
-        type(By.name("lastname"), contactData.getLastname());
-        type(By.name("firstname"), contactData.getFirstname());
-        type(By.name("address"), contactData.getAddress());
-        type(By.name("email"), contactData.getAllEmail());
-        type(By.name("home"), contactData.getAllPhones());
     }
 
     public void initGroupCreation() {
@@ -49,15 +32,7 @@ public class GroupHelper extends HelperBase{
         click(By.name("delete"));
     }
 
-    public void deleteSelectedContacts() {
-        click(By.xpath("//input[@value='Delete']"));
-    }
-
     public void selectGroup() {
-        click(By.name("selected[]"));
-    }
-
-    public void selectContact() {
         click(By.name("selected[]"));
     }
 
@@ -69,11 +44,4 @@ public class GroupHelper extends HelperBase{
         click(By.name("update"));
     }
 
-    public void submitContactModification() {
-        click(By.name("update"));
-    }
-
-    public void initContactModification() {
-        click(By.xpath("//img[@alt='Edit']"));
-    }
 }
