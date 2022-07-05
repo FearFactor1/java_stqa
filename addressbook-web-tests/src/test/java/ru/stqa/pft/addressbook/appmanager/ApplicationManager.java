@@ -12,6 +12,7 @@ public class ApplicationManager {
     private SessionHelper sessionHelper;
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
+    private HelperBase helperBase;
 
     public void init() {
         System.setProperty("webdriver.chrome.driver", "F:\\IdeaProjects\\java_stqa\\chromedriver.exe");
@@ -21,6 +22,7 @@ public class ApplicationManager {
         navigationHelper = new NavigationHelper(wd);
         sessionHelper = new SessionHelper(wd);
         sessionHelper.login("admin", "secret");
+        helperBase = new HelperBase(wd);
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
     }
 
@@ -39,6 +41,10 @@ public class ApplicationManager {
 
     public SessionHelper getSessionHelper() {
         return sessionHelper;
+    }
+
+    public HelperBase getHelperBase() {
+        return helperBase;
     }
 
 

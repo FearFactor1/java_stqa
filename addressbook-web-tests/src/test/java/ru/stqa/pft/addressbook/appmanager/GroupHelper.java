@@ -41,12 +41,6 @@ public class GroupHelper extends HelperBase{
         type(By.name("home"), contactData.getAllPhones());
     }
 
-    private void surname(ContactData contactData) {
-        click(By.name("lastname"));
-        clear(By.name("lastname"));
-        wd.findElement(By.name("lastname")).sendKeys(contactData.getLastname());
-    }
-
     public void initGroupCreation() {
         click(By.name("new"));
     }
@@ -55,7 +49,15 @@ public class GroupHelper extends HelperBase{
         click(By.name("delete"));
     }
 
+    public void deleteSelectedContacts() {
+        click(By.xpath("//input[@value='Delete']"));
+    }
+
     public void selectGroup() {
+        click(By.name("selected[]"));
+    }
+
+    public void selectContact() {
         click(By.name("selected[]"));
     }
 
@@ -65,5 +67,13 @@ public class GroupHelper extends HelperBase{
 
     public void submitGroupModification() {
         click(By.name("update"));
+    }
+
+    public void submitContactModification() {
+        click(By.name("update"));
+    }
+
+    public void initContactModification() {
+        click(By.xpath("//img[@alt='Edit']"));
     }
 }
