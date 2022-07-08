@@ -2,6 +2,9 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.BrowserType;
 
 import java.time.Duration;
 
@@ -14,10 +17,23 @@ public class ApplicationManager {
     private GroupHelper groupHelper;
     private HelperBase helperBase;
     private ContactHelper contactHelper;
+    private String browser;
+
+    public ApplicationManager(String browser) {
+        this.browser = browser;
+    }
 
     public void init() {
-        System.setProperty("webdriver.chrome.driver", "F:\\IdeaProjects\\java_stqa\\chromedriver.exe");
-        wd = new ChromeDriver();
+        if (browser == BrowserType.CHROME) {
+            System.setProperty("webdriver.chrome.driver", "F:\\IdeaProjects\\java_stqa\\chromedriver.exe");
+            wd = new ChromeDriver();
+        } else if (browser == BrowserType.FIREFOX) {
+            System.setProperty("webdriver.gecko.driver", "F:\\IdeaProjects\\java_stqa\\geckodriver.exe");
+            wd = new FirefoxDriver();
+        } else if (browser == BrowserType.IE) {
+            System.setProperty("webdriver.ie.driver", "F:\\IdeaProjects\\java_stqa\\IEDriverServer.exe");
+            wd = new InternetExplorerDriver();
+        }
         wd.get("http://localhost/addressbook/");
         groupHelper = new GroupHelper(wd);
         contactHelper = new ContactHelper(wd);
