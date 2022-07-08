@@ -7,6 +7,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public class ApplicationManager {
 
@@ -24,13 +25,13 @@ public class ApplicationManager {
     }
 
     public void init() {
-        if (browser == BrowserType.CHROME) {
+        if (Objects.equals(browser, BrowserType.CHROME)) {
             System.setProperty("webdriver.chrome.driver", "F:\\IdeaProjects\\java_stqa\\chromedriver.exe");
             wd = new ChromeDriver();
-        } else if (browser == BrowserType.FIREFOX) {
+        } else if (Objects.equals(browser, BrowserType.FIREFOX)) {
             System.setProperty("webdriver.gecko.driver", "F:\\IdeaProjects\\java_stqa\\geckodriver.exe");
             wd = new FirefoxDriver();
-        } else if (browser == BrowserType.IE) {
+        } else if (Objects.equals(browser, BrowserType.IE)) {
             System.setProperty("webdriver.ie.driver", "F:\\IdeaProjects\\java_stqa\\IEDriverServer.exe");
             wd = new InternetExplorerDriver();
         }
