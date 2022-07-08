@@ -11,7 +11,7 @@ public class ContactModificationTests extends TestBase{
         app.getContactHelper().initContactModification();
         app.getContactHelper().fillContactForm(new ContactData(
                 "Petrov", "Vasek", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
-                "ferdcvb@yandex.ru", "+79253478354"));
+                "ferdcvb@yandex.ru", "+79253478354", null), false);
         app.getContactHelper().submitContactModification();
         app.getContactHelper().returnToContactPage();
         app.getSessionHelper().logout();
