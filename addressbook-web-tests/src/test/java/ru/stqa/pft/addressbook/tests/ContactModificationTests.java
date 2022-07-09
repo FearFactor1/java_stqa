@@ -7,6 +7,11 @@ public class ContactModificationTests extends TestBase{
     @Test
     public void testContactModification() {
         app.getNavigationHelper().gotoContactHome();
+        if (! app.getContactHelper().isThereAContact()) {
+            app.getContactHelper().createContact(new ContactData(
+                    "Petrov", "Vasek", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
+                    "ferdcvb@yandex.ru", "+79253478354", "test1"));
+        }
         app.getContactHelper().selectContact();
         app.getContactHelper().initContactModification();
         app.getContactHelper().fillContactForm(new ContactData(
