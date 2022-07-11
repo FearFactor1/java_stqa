@@ -55,7 +55,7 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void createContact(ContactData contact) {
+    public void createContact(ContactData contact, boolean b) {
         initContactCreation();
         fillContactForm(contact, true);
         submitContactCreation();
