@@ -27,11 +27,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void fillContactForm(ContactData contactData, boolean creation) {
-        type(By.name("lastname"), contactData.getLastname());
-        type(By.name("firstname"), contactData.getFirstname());
-        type(By.name("address"), contactData.getAddress());
-        type(By.name("email"), contactData.getAllEmail());
-        type(By.name("home"), contactData.getAllPhones());
 
         if (creation) {
             String groupValue = wd.findElement(By.name("new_group")).getAttribute("value");
@@ -45,14 +40,20 @@ public class ContactHelper extends HelperBase {
                         "Petrov", "Vasek", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
                         "ferdcvb@yandex.ru", "+79253478354", "test1"), true);
             } else {
+                type(By.name("lastname"), contactData.getLastname());
+                type(By.name("firstname"), contactData.getFirstname());
+                type(By.name("address"), contactData.getAddress());
+                type(By.name("email"), contactData.getAllEmail());
+                type(By.name("home"), contactData.getAllPhones());
+
                 new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
                 //Assert.assertFalse(isElementPresent(By.name("new_group")));
                 submitContactCreation();
                 returnToContactPage();
             }
 
-
         }
+
 
     }
 
