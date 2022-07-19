@@ -5,6 +5,8 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
+import java.time.Duration;
+
 public class HelperBase {
     protected WebDriver wd;
 
@@ -52,6 +54,7 @@ public class HelperBase {
     public boolean isAlertAccept() {
         try {
             wd.switchTo().alert().accept();
+            wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
             return true;
         } catch (NoAlertPresentException e) {
             return false;
