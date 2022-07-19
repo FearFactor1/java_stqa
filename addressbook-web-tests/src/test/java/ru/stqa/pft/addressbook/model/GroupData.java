@@ -16,7 +16,7 @@ public class GroupData {
     }
 
     public GroupData(int id, String name, String header, String footer) {
-        this.id = id;
+        this.id = Integer.MAX_VALUE;
         this.name = name;
         this.header = header;
         this.footer = footer;
@@ -55,11 +55,12 @@ public class GroupData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupData groupData = (GroupData) o;
-        return Objects.equals(id, groupData.id) && Objects.equals(name, groupData.name);
+        return Objects.equals(name, groupData.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(name);
     }
+
 }
