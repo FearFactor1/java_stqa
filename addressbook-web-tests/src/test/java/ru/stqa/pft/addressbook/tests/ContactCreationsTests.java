@@ -17,7 +17,7 @@ public class ContactCreationsTests extends TestBase {
         ContactData contact = new ContactData(
                 "Kozlov", "Sergey", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
                 "ferdcvb@yandex.ru", "+79253478354", "test1");
-        app.getContactHelper().fillContactForm(contact, true);
+        app.getContactHelper().fillContactForm(contact);
         List<ContactData> after = app.getContactHelper().getContactList();
         Assert.assertEquals(after.size(), before.size() + 1);
 

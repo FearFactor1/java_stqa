@@ -23,7 +23,7 @@ public class ContactModificationTests extends TestBase{
                 before.get(before.size() - 1).getId(), "Kozlov", "Sergey",
                 "Г. Саратов, ул. Озёрная, д.45, кв. 23",
                 "ferdcvb@yandex.ru", "+79253478354", "test1");
-        app.getContactHelper().fillContactForm(contact, false);
+        app.getContactHelper().fillContactForm(contact);
         app.getContactHelper().submitContactModification();
         app.getContactHelper().returnToContactPage();
         List<ContactData> after = app.getContactHelper().getContactList();
