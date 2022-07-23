@@ -13,8 +13,10 @@ public class ContactModificationTests extends TestBase{
         app.getNavigationHelper().gotoContactHome();
         if (! app.getContactHelper().isThereAContact()) {
             app.getContactHelper().createContact(new ContactData(
-                    "Kozlov", "Sergey", null, null, null,
-                    null), true);
+                    "Kozlov", "Sergey", "г. Клин, ул. Большая, кв. 45, д. 8",
+                    "gytrvbn.mail.ru", "89452367354", "test1"));
+            app.getContactHelper().submitContactCreation();
+            app.getContactHelper().returnToContactPage();
         }
         List<ContactData> before = app.getContactHelper().getContactList();
         app.getContactHelper().selectContact(before.size() - 1);

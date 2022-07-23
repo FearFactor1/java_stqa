@@ -28,17 +28,13 @@ public class ContactHelper extends HelperBase {
 
     public void fillContactForm(ContactData contactData) {
 
-        String contactValue = wd.findElement(By.name("new_group")).getAttribute("value");
         List<WebElement> contactValues = wd.findElements(By.xpath("//select[@name='new_group']/option"));
         navigationHelper = new NavigationHelper(wd);
         groupHelper = new GroupHelper(wd);
-        if (contactValues.size() <= 1) {
+        if (contactValues.size() == 1) {
             navigationHelper.gotoGroupPage();
             groupHelper.createGroup(new GroupData("test1", null, null));
-            createContact(new ContactData(
-                    "Kozlov", "Sergey", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
-                    "ferdcvb@yandex.ru", "+79253478354", null), true);
-
+            navigationHelper.gotoContactPage();
         }
         type(By.name("lastname"), contactData.getLastname());
         type(By.name("firstname"), contactData.getFirstname());
@@ -46,10 +42,6 @@ public class ContactHelper extends HelperBase {
         type(By.name("email"), contactData.getAllEmail());
         type(By.name("home"), contactData.getAllPhones());
 
-        //new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-        //Assert.assertFalse(isElementPresent(By.name("new_group")));
-        submitContactCreation();
-        returnToContactPage();
     }
 
     public void deleteSelectedContacts() {
@@ -72,11 +64,9 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void createContact(ContactData contact, boolean b) {
+    public void createContact(ContactData contact) {
         initContactCreation();
         fillContactForm(contact);
-        //submitContactCreation();
-        //returnToContactPage();
     }
 
     public boolean isThereAContact() {

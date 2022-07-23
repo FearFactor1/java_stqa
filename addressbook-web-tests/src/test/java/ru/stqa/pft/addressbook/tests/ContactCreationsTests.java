@@ -18,6 +18,8 @@ public class ContactCreationsTests extends TestBase {
                 "Kozlov", "Sergey", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
                 "ferdcvb@yandex.ru", "+79253478354", "test1");
         app.getContactHelper().fillContactForm(contact);
+        app.getContactHelper().submitContactCreation();
+        app.getContactHelper().returnToContactPage();
         List<ContactData> after = app.getContactHelper().getContactList();
         Assert.assertEquals(after.size(), before.size() + 1);
 

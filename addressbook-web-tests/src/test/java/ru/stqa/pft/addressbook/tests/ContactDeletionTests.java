@@ -14,7 +14,9 @@ public class ContactDeletionTests extends TestBase {
         if (! app.getContactHelper().isThereAContact()) {
             app.getContactHelper().createContact(new ContactData(
                     "Petrov", "Vasek", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
-                    "ferdcvb@yandex.ru", "+79253478354", "test1"), true);
+                    "ferdcvb@yandex.ru", "+79253478354", "test1"));
+            app.getContactHelper().submitContactCreation();
+            app.getContactHelper().returnToContactPage();
         }
         List<ContactData> before = app.getContactHelper().getContactList();
         app.getContactHelper().selectContact(before.size() - 1);
