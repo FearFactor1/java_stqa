@@ -8,9 +8,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ContactModificationTests extends TestBase{
+
     @Test
     public void testContactModification() {
-        app.getNavigationHelper().gotoContactHome();
+        app.goTo().gotoContactHome();
         if (! app.getContactHelper().isThereAContact()) {
             app.getContactHelper().createContact(new ContactData(
                     "Kozlov", "Sergey", "г. Клин, ул. Большая, кв. 45, д. 8",

@@ -10,7 +10,7 @@ public class ContactDeletionTests extends TestBase {
 
     @Test
     public void testContactDeletion() throws Exception {
-        app.getNavigationHelper().gotoContactHome();
+        app.goTo().gotoContactHome();
         if (! app.getContactHelper().isThereAContact()) {
             app.getContactHelper().createContact(new ContactData(
                     "Petrov", "Vasek", "Г. Саратов, ул. Озёрная, д.45, кв. 23",

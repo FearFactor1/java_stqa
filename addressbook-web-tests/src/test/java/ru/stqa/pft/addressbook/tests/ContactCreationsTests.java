@@ -13,7 +13,7 @@ public class ContactCreationsTests extends TestBase {
     @Test
     public void testContactCreations() throws Exception {
         List<ContactData> before = app.getContactHelper().getContactList();
-        app.getNavigationHelper().gotoContactPage();
+        app.goTo().gotoContactPage();
         ContactData contact = new ContactData(
                 "Kozlov", "Sergey", "Г. Саратов, ул. Озёрная, д.45, кв. 23",
                 "ferdcvb@yandex.ru", "+79253478354", "test1");
