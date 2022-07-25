@@ -33,7 +33,7 @@ public class ContactHelper extends HelperBase {
         groupHelper = new GroupHelper(wd);
         if (contactValues.size() == 1) {
             navigationHelper.gotoGroupPage();
-            groupHelper.createGroup(new GroupData("test1", null, null));
+            groupHelper.createGroup(new GroupData(contactData.getGroup(), null, null));
             navigationHelper.gotoContactPage();
         }
         type(By.name("lastname"), contactData.getLastname());
