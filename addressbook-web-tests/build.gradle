@@ -7,6 +7,7 @@ repositories {
 dependencies {
     implementation("org.testng:testng:7.6.0")
     implementation("org.seleniumhq.selenium:selenium-java:4.3.0")
+    implementation("org.hamcrest:hamcrest:2.2")
 }
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
