@@ -33,7 +33,6 @@ public class ContactHelper extends HelperBase {
         groupHelper = new GroupHelper(wd);
         if (contactValues.size() == 1) {
             navigationHelper.groupPage();
-//            groupHelper.create(new GroupData(contactData.getGroup(), null, null));
             groupHelper.create(new GroupData().withName(contactData.getGroup()));
             navigationHelper.contactPage();
         }
@@ -53,16 +52,11 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
-    public void selectContact(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
-    }
-
     public void submitContactModification() {
         click(By.name("update"));
     }
 
     public void initContactModification(int id) {
-//        wd.findElements(By.xpath("//img[@title='Edit']")).get(before).click();
         wd.findElement(By.xpath("//a[@href='edit.php?id=" + id + "'" + "]")).click();
     }
 
@@ -86,21 +80,11 @@ public class ContactHelper extends HelperBase {
         isAlertAccept();
     }
 
-    public void initContactCreation() {
-        click(By.linkText("add new"));
-    }
-
-    public void createContact(ContactData contact) {
-        initContactCreation();
-        fillContactForm(contact);
-    }
-
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
 
     public Contacts all() {
-        //List<ContactData> contacts = new ArrayList<ContactData>();
         Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.cssSelector("tr[name='entry']"));
         for (WebElement element : elements) {

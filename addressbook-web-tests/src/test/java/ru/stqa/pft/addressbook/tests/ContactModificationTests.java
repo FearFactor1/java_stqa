@@ -24,8 +24,6 @@ public class ContactModificationTests extends TestBase{
     @Test
     public void testContactModification() {
         Contacts before = app.contact().all();
-//        app.contact().selectContact(before.size() - 1);
-//        app.contact().initContactModification(before.size() - 1);
         ContactData modifiedContact = before.iterator().next();
         ContactData contact = new ContactData().withId(modifiedContact.getId()).withLastname("Kozlov").
                 withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
