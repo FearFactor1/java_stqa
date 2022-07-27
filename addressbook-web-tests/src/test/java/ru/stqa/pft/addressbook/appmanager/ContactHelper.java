@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -41,6 +42,8 @@ public class ContactHelper extends HelperBase {
         type(By.name("address"), contactData.getAddress());
         type(By.name("email"), contactData.getAllEmail());
         type(By.name("home"), contactData.getAllPhones());
+
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
 
     }
 
