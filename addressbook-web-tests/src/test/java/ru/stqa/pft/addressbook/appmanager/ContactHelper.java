@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -27,7 +28,7 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.name("submit")).click();
     }
 
-    public void fillContactForm(ContactData contactData) {
+    public boolean fillContactForm(ContactData contactData) {
 
         List<WebElement> contactValues = wd.findElements(By.xpath("//select[@name='new_group']/option"));
         navigationHelper = new NavigationHelper(wd);
@@ -42,8 +43,16 @@ public class ContactHelper extends HelperBase {
         type(By.name("address"), contactData.getAddress());
         type(By.name("email"), contactData.getAllEmail());
         type(By.name("home"), contactData.getAllPhones());
+        type(By.name("mobile"), contactData.getMobilePhone());
+        type(By.name("work"), contactData.getWorkPhone());
 
-        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+
+        try {
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            return true;
+        } catch (NoSuchElementException e) {
+            return true;
+        }
 
     }
 
@@ -94,10 +103,35 @@ public class ContactHelper extends HelperBase {
             List <WebElement> cells = element.findElements(By.tagName("td"));
             String firstname = cells.get(2).getText();
             String lastname = cells.get(1).getText();
+            String allPhones = cells.get(5).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            contacts.add(new ContactData().withId(id).withLastname(lastname).withFirstname(firstname));
+            contacts.add(new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).
+                    withAllPhones(allPhones));
         }
         return contacts;
+    }
+
+    public ContactData InfoFromEditForm(ContactData contact) {
+        initContactModificationById(contact.getId());
+        String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String home = wd.findElement(By.name("home")).getAttribute("value");
+        String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+        String work = wd.findElement(By.name("work")).getAttribute("value");
+        wd.navigate().back();
+        return new ContactData().withId(contact.getId()).withFirstname(firstname).
+                withLastname(lastname).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+    }
+
+    private void initContactModificationById(int id) {
+        WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+        WebElement row = checkbox.findElement(By.xpath("./../.."));
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        cells.get(7).findElement(By.tagName("a")).click();
+
+//        wd.findElement(By.xpath(String.format("//input[@value='%s']/../../td[8]/a", id))).click();
+//        wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click();
+//        wd.findElement(By.xpath(String.format("a[href='edit.php?id=%s']", id))).click();
     }
 
 }

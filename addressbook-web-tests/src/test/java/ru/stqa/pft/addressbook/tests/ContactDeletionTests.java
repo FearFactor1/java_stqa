@@ -13,8 +13,8 @@ public class ContactDeletionTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
-        app.goTo().contactPage();
         if (app.contact().all().size() == 0) {
+            app.goTo().contactPage();
             app.contact().create(new ContactData().withLastname("Petrov").
                     withFirstname("Vasek").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
                     withAllEmail("ferdcvb@yandex.ru").withAllPhones("+79253478354").
