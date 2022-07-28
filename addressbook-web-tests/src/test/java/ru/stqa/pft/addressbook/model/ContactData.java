@@ -8,6 +8,8 @@ public class ContactData {
     private String firstname;
     private String address;
     private String all_email;
+    private String all_email2;
+    private String all_email3;
     private String all_phones;
     private String group;
     private String home_phone;
@@ -32,6 +34,14 @@ public class ContactData {
 
     public String getAllEmail() {
         return all_email;
+    }
+
+    public String getAllEmail2() {
+        return all_email2;
+    }
+
+    public String getAllEmail3() {
+        return all_email3;
     }
 
     public String getAllPhones() {
@@ -76,6 +86,16 @@ public class ContactData {
 
     public ContactData withAllEmail(String all_email) {
         this.all_email = all_email;
+        return this;
+    }
+
+    public ContactData withAllEmail2(String all_email2) {
+        this.all_email2 = all_email2;
+        return this;
+    }
+
+    public ContactData withAllEmail3(String all_email3) {
+        this.all_email3 = all_email3;
         return this;
     }
 
