@@ -15,6 +15,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+// аргументы для запуска генератора данных - -f src/test/resources/contacts.json -c 3 -d json или
+// -f src/test/resources/contacts.xml -c 3 -d xml
+
 public class ContactDataGenerator {
 
     @Parameter(names = "-c", description = "Contact count")

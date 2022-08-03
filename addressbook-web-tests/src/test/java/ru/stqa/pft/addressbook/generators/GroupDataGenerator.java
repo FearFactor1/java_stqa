@@ -15,6 +15,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+// аргументы для запуска генератора данных - -f src/test/resources/groups.json -c 3 -d json или
+// -f src/test/resources/groups.xml -c 3 -d xml
+
 public class GroupDataGenerator {
 
     @Parameter(names = "-c", description = "Group count")
