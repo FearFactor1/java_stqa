@@ -18,21 +18,21 @@ public class ContactData {
     @Expose
     private String address;
     @Expose
-    private String all_email;
+    private String allEmail;
     @Expose
-    private String all_email2;
+    private String allEmail2;
     @Expose
-    private String all_email3;
+    private String allEmail3;
     @Expose
-    private String all_phones;
+    private String allPhones;
     @Expose
     private String group;
     @Expose
-    private String home_phone;
+    private String homePhone;
     @Expose
     private String mobile;
     @Expose
-    private String work_phone;
+    private String workPhone;
 
     public File getPhoto() {
         return photo;
@@ -62,19 +62,19 @@ public class ContactData {
     }
 
     public String getAllEmail() {
-        return all_email;
+        return allEmail;
     }
 
     public String getAllEmail2() {
-        return all_email2;
+        return allEmail2;
     }
 
     public String getAllEmail3() {
-        return all_email3;
+        return allEmail3;
     }
 
     public String getAllPhones() {
-        return all_phones;
+        return allPhones;
     }
 
     public String getGroup() {
@@ -82,7 +82,7 @@ public class ContactData {
     }
 
     public String getHomePhone() {
-        return home_phone;
+        return homePhone;
     }
 
     public String getMobilePhone() {
@@ -90,7 +90,7 @@ public class ContactData {
     }
 
     public String getWorkPhone() {
-        return work_phone;
+        return workPhone;
     }
 
     public ContactData withId(int id) {
@@ -113,23 +113,23 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withAllEmail(String all_email) {
-        this.all_email = all_email;
+    public ContactData withAllEmail(String allEmail) {
+        this.allEmail = allEmail;
         return this;
     }
 
-    public ContactData withAllEmail2(String all_email2) {
-        this.all_email2 = all_email2;
+    public ContactData withAllEmail2(String allEmail2) {
+        this.allEmail2 = allEmail2;
         return this;
     }
 
-    public ContactData withAllEmail3(String all_email3) {
-        this.all_email3 = all_email3;
+    public ContactData withAllEmail3(String allEmail3) {
+        this.allEmail3 = allEmail3;
         return this;
     }
 
-    public ContactData withAllPhones(String all_phones) {
-        this.all_phones = all_phones;
+    public ContactData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
         return this;
     }
 
@@ -138,8 +138,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withHomePhone(String home_phone) {
-        this.home_phone = home_phone;
+    public ContactData withHomePhone(String homePhone) {
+        this.homePhone = homePhone;
         return this;
     }
 
@@ -148,8 +148,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withWorkPhone(String work_phone) {
-        this.work_phone = work_phone;
+    public ContactData withWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
         return this;
     }
 

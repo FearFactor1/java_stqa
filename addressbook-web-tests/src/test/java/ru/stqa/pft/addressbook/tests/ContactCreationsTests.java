@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.DataProvider;
@@ -47,20 +48,20 @@ public class ContactCreationsTests extends TestBase {
             json += line;
             line = reader.readLine();
         }
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
         return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
 
     @Test(dataProvider = "validContactsFromJson")
-    public void testContactCreations() throws Exception {
+    public void testContactCreations(ContactData contact) throws Exception {
         app.goTo().contactPage();
         Contacts before = app.contact().all();
         File photo = new File("src/test/resources/stru.png");
-        ContactData contact = new ContactData().withLastname("Kozlov").
-                withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
-                withAllEmail("ferdcvb@yandex.ru").withAllPhones("+79253478354").withGroup("test1")
-                .withPhoto(photo);
+//        ContactData contact = new ContactData().withLastname("Kozlov").
+//                withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
+//                withAllEmail("ferdcvb@yandex.ru").withAllPhones("+79253478354").withGroup("test1")
+//                .withPhoto(photo);
         app.contact().create(contact);
         Contacts after = app.contact().all();
         assertThat(after.size(),  equalTo(before.size() + 1));

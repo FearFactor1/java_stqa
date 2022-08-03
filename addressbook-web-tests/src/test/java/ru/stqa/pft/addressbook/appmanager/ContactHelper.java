@@ -1,5 +1,7 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +11,10 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -28,14 +34,25 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.name("submit")).click();
     }
 
-    public boolean fillContactForm(ContactData contactData) {
+    public boolean fillContactForm(ContactData contactData) throws IOException {
+
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
+        String json = "";
+        String line = reader.readLine();
+        while (line != null) {
+            json += line;
+            line = reader.readLine();
+        }
+        Gson gson = new Gson();
+        List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());
 
         List<WebElement> contactValues = wd.findElements(By.xpath("//select[@name='new_group']/option"));
         navigationHelper = new NavigationHelper(wd);
         groupHelper = new GroupHelper(wd);
         if (contactValues.size() == 1) {
             navigationHelper.groupPage();
-            groupHelper.create(new GroupData().withName(contactData.getGroup()));
+//            groupHelper.create(new GroupData().withName(contactData.getGroup()));
+            groupHelper.create(groups.get(0));
             navigationHelper.contactPage();
         }
         type(By.name("lastname"), contactData.getLastname());
@@ -51,7 +68,8 @@ public class ContactHelper extends HelperBase {
 
 
         try {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+//            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groups.get(0).getName());
             return true;
         } catch (NoSuchElementException e) {
             return true;
@@ -75,17 +93,19 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.xpath("//a[@href='edit.php?id=" + id + "'" + "]")).click();
     }
 
-    public void create(ContactData contact) {
+    public void create(ContactData contact) throws IOException {
         fillContactForm(contact);
         submitContactCreation();
+        contactCache = null;
         returnToContactPage();
     }
 
-    public void modify(ContactData contact) {
+    public void modify(ContactData contact) throws IOException {
         selectContactById(contact.getId());
         initContactModification(contact.getId());
         fillContactForm(contact);
         submitContactModification();
+        contactCache = null;
         returnToContactPage();
     }
 
@@ -93,27 +113,35 @@ public class ContactHelper extends HelperBase {
         selectContactById(contact.getId());
         deleteSelectedContacts();
         isAlertAccept();
+        contactCache = null;
     }
 
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
 
+    private Contacts contactCache = null;
+
     public Contacts all() {
-        Contacts contacts = new Contacts();
+        if (contactCache != null) {
+            return new Contacts(contactCache);
+        }
+
+        contactCache = new Contacts();
+        //Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.cssSelector("tr[name='entry']"));
         for (WebElement element : elements) {
-            List <WebElement> cells = element.findElements(By.tagName("td"));
+            List<WebElement> cells = element.findElements(By.tagName("td"));
             String firstname = cells.get(2).getText();
             String lastname = cells.get(1).getText();
             String allPhones = cells.get(5).getText();
             String address = cells.get(3).getText();
             String emails = cells.get(4).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            contacts.add(new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).
+            contactCache.add(new ContactData().withId(id).withLastname(lastname).withFirstname(firstname).
                     withAllPhones(allPhones).withAddress(address).withAllEmail(emails));
         }
-        return contacts;
+        return new Contacts(contactCache);
     }
 
     public ContactData InfoFromEditForm(ContactData contact) {
