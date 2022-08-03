@@ -36,43 +36,47 @@ public class ContactHelper extends HelperBase {
 
     public boolean fillContactForm(ContactData contactData) throws IOException {
 
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
-        String json = "";
-        String line = reader.readLine();
-        while (line != null) {
-            json += line;
-            line = reader.readLine();
-        }
-        Gson gson = new Gson();
-        List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(
+                "src/test/resources/groups.json")))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());
 
-        List<WebElement> contactValues = wd.findElements(By.xpath("//select[@name='new_group']/option"));
-        navigationHelper = new NavigationHelper(wd);
-        groupHelper = new GroupHelper(wd);
-        if (contactValues.size() == 1) {
-            navigationHelper.groupPage();
+            List<WebElement> contactValues = wd.findElements(By.xpath("//select[@name='new_group']/option"));
+            navigationHelper = new NavigationHelper(wd);
+            groupHelper = new GroupHelper(wd);
+            if (contactValues.size() == 1) {
+                navigationHelper.groupPage();
 //            groupHelper.create(new GroupData().withName(contactData.getGroup()));
-            groupHelper.create(groups.get(0));
-            navigationHelper.contactPage();
-        }
-        type(By.name("lastname"), contactData.getLastname());
-        type(By.name("firstname"), contactData.getFirstname());
-        type(By.name("address"), contactData.getAddress());
-        type(By.name("email"), contactData.getAllEmail());
-        type(By.name("email2"), contactData.getAllEmail2());
-        type(By.name("email3"), contactData.getAllEmail3());
-        type(By.name("home"), contactData.getAllPhones());
-        type(By.name("mobile"), contactData.getMobilePhone());
-        type(By.name("work"), contactData.getWorkPhone());
-        attach(By.name("photo"), contactData.getPhoto());
+                groupHelper.create(groups.get(0));
+                navigationHelper.contactPage();
+            }
+
+            type(By.name("lastname"), contactData.getLastname());
+            type(By.name("firstname"), contactData.getFirstname());
+            type(By.name("address"), contactData.getAddress());
+            type(By.name("email"), contactData.getAllEmail());
+            type(By.name("email2"), contactData.getAllEmail2());
+            type(By.name("email3"), contactData.getAllEmail3());
+            type(By.name("home"), contactData.getAllPhones());
+            type(By.name("mobile"), contactData.getMobilePhone());
+            type(By.name("work"), contactData.getWorkPhone());
+            attach(By.name("photo"), contactData.getPhoto());
 
 
-        try {
+            try {
 //            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groups.get(0).getName());
-            return true;
-        } catch (NoSuchElementException e) {
-            return true;
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groups.get(0).getName());
+                return true;
+            } catch (NoSuchElementException e) {
+                return true;
+            }
+
         }
 
     }
