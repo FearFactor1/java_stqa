@@ -52,7 +52,6 @@ public class ContactHelper extends HelperBase {
             groupHelper = new GroupHelper(wd);
             if (contactValues.size() == 1) {
                 navigationHelper.groupPage();
-//            groupHelper.create(new GroupData().withName(contactData.getGroup()));
                 groupHelper.create(groups.get(0));
                 navigationHelper.contactPage();
             }
@@ -66,11 +65,10 @@ public class ContactHelper extends HelperBase {
             type(By.name("home"), contactData.getAllPhones());
             type(By.name("mobile"), contactData.getMobilePhone());
             type(By.name("work"), contactData.getWorkPhone());
-            attach(By.name("photo"), contactData.getPhoto());
+            //attach(By.name("photo"), contactData.getPhoto());
 
 
             try {
-//            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
                 new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groups.get(0).getName());
                 return true;
             } catch (NoSuchElementException e) {
@@ -132,7 +130,6 @@ public class ContactHelper extends HelperBase {
         }
 
         contactCache = new Contacts();
-        //Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.cssSelector("tr[name='entry']"));
         for (WebElement element : elements) {
             List<WebElement> cells = element.findElements(By.tagName("td"));

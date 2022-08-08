@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -57,17 +58,22 @@ public class ContactCreationsTests extends TestBase {
         }
     }
 
+    @BeforeMethod
+    public void ensurePreconditions() throws IOException {
+        if (app.db().contacts().size() == 0) {
+            app.goTo().contactPage();
+            app.contact().create(new ContactData().withLastname("Kozlov").
+                    withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
+                    withAllEmail("ferdcvb@yandex.ru").withHomePhone("+79253478354").withGroup("test1"));
+        }
+    }
+
     @Test(dataProvider = "validContactsFromJson")
     public void testContactCreations(ContactData contact) throws Exception {
         app.goTo().contactPage();
-        Contacts before = app.contact().all();
-//        File photo = new File("src/test/resources/stru.png");
-//        ContactData contact = new ContactData().withLastname("Kozlov").
-//                withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
-//                withAllEmail("ferdcvb@yandex.ru").withAllPhones("+79253478354").withGroup("test1")
-//                .withPhoto(photo);
+        Contacts before = app.db().contacts();
         app.contact().create(contact);
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after.size(),  equalTo(before.size() + 1));
         assertThat(after, equalTo(before.withAdded(
                 contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
