@@ -3,7 +3,6 @@ package ru.stqa.pft.addressbook.appmanager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -16,6 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ContactHelper extends HelperBase {
 
@@ -45,7 +45,8 @@ public class ContactHelper extends HelperBase {
                 line = reader.readLine();
             }
             Gson gson = new Gson();
-            List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());
+            List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
+            }.getType());
 
             List<WebElement> contactValues = wd.findElements(By.xpath("//select[@name='new_group']/option"));
             navigationHelper = new NavigationHelper(wd);
@@ -75,9 +76,20 @@ public class ContactHelper extends HelperBase {
                 return true;
             }
 
-        }
+//            if (contactData.getGroups().size() > 0) {
+//                Assert.assertEquals(contactData.getGroups().size(), 1);
+//                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().
+//                            iterator().next().getName());
+//                }
 
+//            } else {
+//                Assert.assertFalse(isElementPresent(By.name("new_group")));
+//            }
+
+        }
     }
+
+
 
     public void deleteSelectedContacts() {
         click(By.xpath("//input[@value='Delete']"));

@@ -23,7 +23,7 @@ public class ContactMainPageTests extends TestBase {
                     withFirstname("Vasek").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
                     withAllEmail("ferdcvb@yandex.ru").withAllEmail2("vaxa@mail.ru").
                     withAllEmail3("vautsiy@rambler.ru").withAllPhones("+79253478354").
-                    withGroup("test1").withMobilePhone("+79245645246").withWorkPhone("94578902"));
+                    withMobilePhone("+79245645246").withWorkPhone("94578902"));
         }
     }
 

@@ -19,7 +19,7 @@ public class ContactDeletionTests extends TestBase {
             app.goTo().contactPage();
             app.contact().create(new ContactData().withLastname("Kozlov").
                     withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
-                    withAllEmail("ferdcvb@yandex.ru").withHomePhone("+79253478354").withGroup("test1"));
+                    withAllEmail("ferdcvb@yandex.ru").withHomePhone("+79253478354"));
         }
     }
 
