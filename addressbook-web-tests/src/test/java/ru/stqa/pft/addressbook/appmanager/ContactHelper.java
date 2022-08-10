@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.NoSuchElementException;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -15,7 +16,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class ContactHelper extends HelperBase {
 
@@ -99,12 +99,29 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
+    public void selectGroupInContact(String name) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(name);
+    }
+
     public void submitContactModification() {
         click(By.name("update"));
     }
 
     public void initContactModification(int id) {
         wd.findElement(By.xpath("//a[@href='edit.php?id=" + id + "'" + "]")).click();
+    }
+
+    public void groupsPage(String name) {
+        wd.findElement(By.xpath(
+                "//a[contains(text(),'group page " + '"' + name + '"' + "'" + ")" + "]")).click();
+    }
+
+    public void submitAddContactInGroup() {
+        click(By.name("add"));
+    }
+
+    public void submitDeleteContactFromGroup() {
+        click(By.name("remove"));
     }
 
     public void create(ContactData contact) throws IOException {
@@ -128,6 +145,29 @@ public class ContactHelper extends HelperBase {
         deleteSelectedContacts();
         isAlertAccept();
         contactCache = null;
+    }
+
+    public void addInGroup(ContactData contact, GroupData group) {
+        selectContactById(contact.getId());
+        submitAddContactInGroup();
+        contactCache = null;
+        groupsPage(group.getName());
+    }
+
+    public void deleteFromGroup(ContactData contact, GroupData group) {
+        selectGroupInContact(group.getName());
+        List<WebElement> elements = wd.findElements(By.cssSelector("tr[name='entry']"));
+        if (elements.size() == 0) {
+            selectGroupInContact("[all]");
+            selectContactById(contact.getId());
+            submitAddContactInGroup();
+            contactCache = null;
+            groupsPage(group.getName());
+        }
+        selectContactById(contact.getId());
+        submitDeleteContactFromGroup();
+        contactCache = null;
+        groupsPage(group.getName());
     }
 
     public boolean isThereAContact() {
