@@ -3,13 +3,14 @@ package ru.stqa.pft.addressbook.appmanager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.NoSuchElementException;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -147,11 +148,25 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
     }
 
-    public void addInGroup(ContactData contact, GroupData group) {
-        selectContactById(contact.getId());
-        submitAddContactInGroup();
-        contactCache = null;
-        groupsPage(group.getName());
+    public void addInGroup(ContactData contact, GroupData group) throws IOException {
+        selectGroupInContact("[none]");
+        List<WebElement> elements = wd.findElements(By.cssSelector("tr[name='entry']"));
+        if (elements.size() > 0) {
+            selectContactById(contact.getId());
+            submitAddContactInGroup();
+            contactCache = null;
+            navigationHelper = new NavigationHelper(wd);
+            navigationHelper.gotoContactHome();
+        } else {
+            Groups groups = new DbHelper().groups();
+            navigationHelper = new NavigationHelper(wd);
+            navigationHelper.contactPage();
+            create(contact.inGroup(groups.iterator().next()));
+            selectGroupInContact("[none]");
+            boxContact();
+            submitAddContactInGroup();
+            navigationHelper.gotoContactHome();
+        }
     }
 
     public void deleteFromGroup(ContactData contact, GroupData group) {
@@ -172,6 +187,10 @@ public class ContactHelper extends HelperBase {
 
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
+    }
+
+    public void boxContact() {
+        click(By.name("selected[]"));
     }
 
     private Contacts contactCache = null;

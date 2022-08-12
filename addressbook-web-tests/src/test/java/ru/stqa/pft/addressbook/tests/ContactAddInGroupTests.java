@@ -60,6 +60,6 @@ public class ContactAddInGroupTests extends TestBase {
         Contacts before = app.db().contacts();
         app.contact().addInGroup(before.iterator().next(), groups.iterator().next());
         Contacts after = app.db().contacts();
-        assertThat(after,  equalTo(before));
+        assertThat(after.size(),  equalTo(before.size() + 1));
     }
 }
