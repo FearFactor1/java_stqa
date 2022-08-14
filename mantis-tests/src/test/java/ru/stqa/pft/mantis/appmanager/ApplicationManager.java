@@ -19,7 +19,6 @@ public class ApplicationManager {
     private final Properties properties;
     public WebDriver wd;
 
-    private HttpSession httpSession;
     private String browser;
 
     public ApplicationManager(String browser) {
@@ -42,7 +41,6 @@ public class ApplicationManager {
             wd = new InternetExplorerDriver();
         }
         wd.get(properties.getProperty("web.baseUrl"));
-        httpSession = new HttpSession(wd);
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
     }
 
