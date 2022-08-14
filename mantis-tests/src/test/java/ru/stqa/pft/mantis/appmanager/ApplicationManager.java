@@ -16,9 +16,10 @@ import java.util.Properties;
 public class ApplicationManager {
 
     private final Properties properties;
-    public WebDriver wd;
+    private WebDriver wd;
 
     private String browser;
+    private RegistrationHelper registrationHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -29,22 +30,12 @@ public class ApplicationManager {
         String target = System.getProperty("target", "local");
         properties.load((new FileReader(new File(String.format("src/test/resources/%s.properties", target)))));
 
-        if (Objects.equals(browser, BrowserType.CHROME)) {
-            System.setProperty("webdriver.chrome.driver", "F:\\IdeaProjects\\java_stqa\\chromedriver.exe");
-            wd = new ChromeDriver();
-        } else if (Objects.equals(browser, BrowserType.FIREFOX)) {
-            System.setProperty("webdriver.gecko.driver", "F:\\IdeaProjects\\java_stqa\\geckodriver.exe");
-            wd = new FirefoxDriver();
-        } else if (Objects.equals(browser, BrowserType.IE)) {
-            System.setProperty("webdriver.ie.driver", "F:\\IdeaProjects\\java_stqa\\IEDriverServer.exe");
-            wd = new InternetExplorerDriver();
-        }
-        wd.get(properties.getProperty("web.baseUrl"));
-        wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
     }
 
     public void stop() {
-        wd.quit();
+        if (wd != null) {
+            wd.quit();
+        }
     }
 
     public HttpSession newSession() {
@@ -55,4 +46,28 @@ public class ApplicationManager {
         return properties.getProperty(key);
     }
 
+    public RegistrationHelper registration() {
+        if (registrationHelper == null) {
+            registrationHelper = new RegistrationHelper(this);
+        }
+        return registrationHelper;
+    }
+
+    public WebDriver getDriver() {
+        if(wd == null) {
+            if (Objects.equals(browser, BrowserType.CHROME)) {
+                System.setProperty("webdriver.chrome.driver", "F:\\IdeaProjects\\java_stqa\\chromedriver.exe");
+                wd = new ChromeDriver();
+            } else if (Objects.equals(browser, BrowserType.FIREFOX)) {
+                System.setProperty("webdriver.gecko.driver", "F:\\IdeaProjects\\java_stqa\\geckodriver.exe");
+                wd = new FirefoxDriver();
+            } else if (Objects.equals(browser, BrowserType.IE)) {
+                System.setProperty("webdriver.ie.driver", "F:\\IdeaProjects\\java_stqa\\IEDriverServer.exe");
+                wd = new InternetExplorerDriver();
+            }
+            wd.get(properties.getProperty("web.baseUrl"));
+            wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+        }
+        return wd;
+    }
 }
