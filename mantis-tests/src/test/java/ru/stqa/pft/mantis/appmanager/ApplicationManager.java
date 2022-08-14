@@ -19,6 +19,7 @@ public class ApplicationManager {
     private final Properties properties;
     public WebDriver wd;
 
+    private HttpSession httpSession;
     private String browser;
 
     public ApplicationManager(String browser) {
@@ -41,12 +42,21 @@ public class ApplicationManager {
             wd = new InternetExplorerDriver();
         }
         wd.get(properties.getProperty("web.baseUrl"));
+        httpSession = new HttpSession(wd);
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
     }
 
     public void stop() {
         wd.findElement(By.linkText("Logout")).click();
         wd.quit();
+    }
+
+    public HttpSession newSession() {
+        return new HttpSession(this);
+    }
+
+    public String getProperty(String key) {
+        return properties.getProperty(key);
     }
 
 }

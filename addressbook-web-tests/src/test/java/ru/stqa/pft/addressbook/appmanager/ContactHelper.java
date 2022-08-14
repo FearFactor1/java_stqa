@@ -148,15 +148,18 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
     }
 
-    public void addInGroup(ContactData contact, GroupData group) throws IOException {
+    public void addContactInGroup(ContactData contact) throws IOException {
+        // заходим в писок групп и выбираем [none]
         selectGroupInContact("[none]");
         List<WebElement> elements = wd.findElements(By.cssSelector("tr[name='entry']"));
+        // если спиок не пустой, то берём контакт и добавляем его в группу
         if (elements.size() > 0) {
             selectContactById(contact.getId());
             submitAddContactInGroup();
             contactCache = null;
             navigationHelper = new NavigationHelper(wd);
             navigationHelper.gotoContactHome();
+            // если список [none] пуст, то создаю контакт и добавлюя в группу
         } else {
             Groups groups = new DbHelper().groups();
             navigationHelper = new NavigationHelper(wd);
