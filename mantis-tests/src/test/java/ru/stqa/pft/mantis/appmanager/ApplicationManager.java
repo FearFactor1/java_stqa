@@ -20,6 +20,7 @@ public class ApplicationManager {
 
     private String browser;
     private RegistrationHelper registrationHelper;
+    private PasswordChangeHelper passwordChangeHelper;
     private FtpHelper ftp;
     private MailHelper mailHelper;
     private JamesHelper jamesHelper;
@@ -93,5 +94,12 @@ public class ApplicationManager {
             jamesHelper = new JamesHelper(this);
         }
         return jamesHelper;
+    }
+
+    public PasswordChangeHelper passwordChange() {
+        if (passwordChangeHelper == null) {
+            passwordChangeHelper = new PasswordChangeHelper(this);
+        }
+        return passwordChangeHelper;
     }
 }
