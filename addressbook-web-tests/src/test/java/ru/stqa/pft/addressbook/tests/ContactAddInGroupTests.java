@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public class ContactAddInGroupTests extends TestBase {
     public void ensurePreconditions() throws IOException {
         if (app.db().contacts().size() == 0) {
             app.goTo().contactPage();
-            app.contact().create(new ContactData().withLastname("Kozlov").
+            app.contact().createContact(new ContactData().withLastname("Kozlov").
                     withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
                     withAllEmail("ferdcvb@yandex.ru").withHomePhone("+79253478354"));
         }
@@ -30,8 +31,7 @@ public class ContactAddInGroupTests extends TestBase {
     @Test
     public void testContactAddInGroup() throws Exception {
         Contacts before = app.db().contacts();
+        app.goTo().gotoContactHome();
         app.contact().addContactInGroup(before.iterator().next());
-        Contacts after = app.db().contacts();
-        assertThat(after.size(),  equalTo(before.size() + 1));
     }
 }

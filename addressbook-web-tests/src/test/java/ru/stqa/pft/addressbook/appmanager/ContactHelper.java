@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -67,7 +66,6 @@ public class ContactHelper extends HelperBase {
             type(By.name("home"), contactData.getAllPhones());
             type(By.name("mobile"), contactData.getMobilePhone());
             type(By.name("work"), contactData.getWorkPhone());
-            //attach(By.name("photo"), contactData.getPhoto());
 
 
             try {
@@ -76,16 +74,6 @@ public class ContactHelper extends HelperBase {
             } catch (NoSuchElementException e) {
                 return true;
             }
-
-//            if (contactData.getGroups().size() > 0) {
-//                Assert.assertEquals(contactData.getGroups().size(), 1);
-//                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().
-//                            iterator().next().getName());
-//                }
-
-//            } else {
-//                Assert.assertFalse(isElementPresent(By.name("new_group")));
-//            }
 
         }
     }
@@ -132,6 +120,23 @@ public class ContactHelper extends HelperBase {
         returnToContactPage();
     }
 
+    public void createContact(ContactData contactData) {
+
+        type(By.name("lastname"), contactData.getLastname());
+        type(By.name("firstname"), contactData.getFirstname());
+        type(By.name("address"), contactData.getAddress());
+        type(By.name("email"), contactData.getAllEmail());
+        type(By.name("email2"), contactData.getAllEmail2());
+        type(By.name("email3"), contactData.getAllEmail3());
+        type(By.name("home"), contactData.getAllPhones());
+        type(By.name("mobile"), contactData.getMobilePhone());
+        type(By.name("work"), contactData.getWorkPhone());
+
+        submitContactCreation();
+        returnToContactPage();
+
+    }
+
     public void modify(ContactData contact) throws IOException {
         selectContactById(contact.getId());
         initContactModification(contact.getId());
@@ -161,10 +166,11 @@ public class ContactHelper extends HelperBase {
             navigationHelper.gotoContactHome();
             // если список [none] пуст, то создаю контакт и добавлюя в группу
         } else {
-            Groups groups = new DbHelper().groups();
             navigationHelper = new NavigationHelper(wd);
             navigationHelper.contactPage();
-            create(contact.inGroup(groups.iterator().next()));
+            createContact(new ContactData().withLastname("Kozlov").
+                    withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
+                    withAllEmail("ferdcvb@yandex.ru").withHomePhone("+79253478354"));;
             selectGroupInContact("[none]");
             boxContact();
             submitAddContactInGroup();
@@ -182,7 +188,7 @@ public class ContactHelper extends HelperBase {
             contactCache = null;
             groupsPage(group.getName());
         }
-        selectContactById(contact.getId());
+        boxContact();
         submitDeleteContactFromGroup();
         contactCache = null;
         groupsPage(group.getName());

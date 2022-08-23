@@ -24,27 +24,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactDeleteFromGroupTests extends TestBase {
 
-    @DataProvider
-    public Iterator<Object[]> validContactsFromJson() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File(
-                "src/test/resources/contacts.json")))) {
-            String json = "";
-            String line = reader.readLine();
-            while (line != null) {
-                json += line;
-                line = reader.readLine();
-            }
-            Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
-            return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
-        }
-    }
-
     @BeforeMethod
     public void ensurePreconditions() throws IOException {
         if (app.db().contacts().size() == 0) {
             app.goTo().contactPage();
-            app.contact().create(new ContactData().withLastname("Kozlov").
+            app.contact().createContact(new ContactData().withLastname("Kozlov").
                     withFirstname("Sergey").withAddress("Г. Саратов, ул. Озёрная, д.45, кв. 23").
                     withAllEmail("ferdcvb@yandex.ru").withHomePhone("+79253478354"));
         }
@@ -54,12 +38,11 @@ public class ContactDeleteFromGroupTests extends TestBase {
         }
     }
 
-    @Test(dataProvider = "validContactsFromJson")
-    public void testContactDeleteFromGroup(ContactData contact) throws Exception {
+    @Test
+    public void testContactDeleteFromGroup() throws Exception {
         Groups groups = app.db().groups();
         Contacts before = app.db().contacts();
+        app.goTo().gotoContactHome();
         app.contact().deleteFromGroup(before.iterator().next(), groups.iterator().next());
-        Groups after = app.db().groups();
-        assertThat(groups,  equalTo(after));
     }
 }
