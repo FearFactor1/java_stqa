@@ -1,16 +1,13 @@
 package ru.stqa.pft.mantis.tests;
 
-import biz.futureware.mantis.rpc.soap.client.MantisConnectLocator;
-import biz.futureware.mantis.rpc.soap.client.MantisConnectPortType;
-import biz.futureware.mantis.rpc.soap.client.ProjectData;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.mantis.model.Issue;
 import ru.stqa.pft.mantis.model.Project;
 
 import javax.xml.rpc.ServiceException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.Set;
 
@@ -34,5 +31,26 @@ public class SoapTests extends TestBase {
                 withProject(projects.iterator().next());
         Issue created = app.soap().addIssue(issue);
         assertEquals(issue.getSummary(), created.getSummary());
+    }
+
+    @Test
+    public void testNewBug() throws MalformedURLException, ServiceException, RemoteException {
+        boolean iss = isIssueOpen(1);
+        System.out.println(iss);
+        Assert.assertFalse(iss);
+    }
+
+    @Test
+    public void testCloseBug() throws MalformedURLException, ServiceException, RemoteException {
+        boolean iss = isIssueOpen(2);
+        System.out.println(iss);
+        Assert.assertTrue(iss);
+    }
+
+    @Test
+    public void testSkipBug() throws MalformedURLException, ServiceException, RemoteException {
+        skipIfNotFixed(2);
+        boolean iss = isIssueOpen(2);
+        System.out.println(iss);
     }
 }
