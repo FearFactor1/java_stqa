@@ -41,7 +41,7 @@ public class RestTests {
 
     private int createIssue(Issue newIssue) throws IOException {
         String json = getExecutor().execute(Request.Post("https://bugify.stqa.ru/api/issues.json").
-                        bodyForm(new BasicNameValuePair("sudject", newIssue.getSubject()),
+                        bodyForm(new BasicNameValuePair("subject", newIssue.getSubject()),
                                 new BasicNameValuePair("description", newIssue.getDescription()))).
                 returnContent().asString();
         JsonElement parsed = new JsonParser().parse(json);
