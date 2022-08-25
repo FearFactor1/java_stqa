@@ -1,4 +1,4 @@
-package ru.stqa.pft.rest;
+package ru.stqa.pft.rest.tests.tests;
 
 import java.util.Objects;
 
