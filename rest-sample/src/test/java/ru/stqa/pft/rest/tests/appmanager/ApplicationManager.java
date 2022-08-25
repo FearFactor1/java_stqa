@@ -19,6 +19,7 @@ public class ApplicationManager {
     private WebDriver wd;
 
     private String browser;
+    private ApiHelper apiHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -41,6 +42,13 @@ public class ApplicationManager {
             wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
         }
         return wd;
+    }
+
+    public ApiHelper api() {
+        if (apiHelper == null) {
+            apiHelper = new ApiHelper(this);
+        }
+        return apiHelper;
     }
 
 }

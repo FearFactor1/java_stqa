@@ -1,5 +1,6 @@
 package ru.stqa.pft.rest.tests.tests;
 
+import io.restassured.RestAssured;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.SkipException;
 import org.testng.annotations.AfterSuite;
@@ -17,6 +18,11 @@ public class TestBase {
 
     protected static final ApplicationManager app = new ApplicationManager(System.getProperty(
             "browser", BrowserType.CHROME));
+
+    @BeforeSuite
+    public void setUp() throws Exception {
+        RestAssured.authentication = RestAssured.basic("288f44776e7bec4bf44fdfeb1e646490", "");
+    }
 
 //    public boolean isIssueOpen(int issueId) throws MalformedURLException, ServiceException, RemoteException {
 //        MantisConnectPortType mc = getMantisConnect();
