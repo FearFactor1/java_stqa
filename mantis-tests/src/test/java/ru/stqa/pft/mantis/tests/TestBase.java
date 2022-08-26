@@ -39,11 +39,17 @@ public class TestBase {
         MantisConnectPortType mc = getMantisConnect();
         IssueData bugReport = mc.mc_issue_get("administrator", "root", BigInteger.valueOf(issueId));
         String bugStatus = String.valueOf(bugReport.getStatus().getName());
-        if (Objects.equals(bugStatus, "new")) {
+        if (Objects.equals(bugStatus, "new") | (Objects.equals(bugStatus, "feedback")) |
+                (Objects.equals(bugStatus, "acknowledged")) | (Objects.equals(bugStatus, "assigned"))
+                | (Objects.equals(bugStatus, "confirmed"))) {
+            System.out.println("баг не закрыт");
             return false;
         } else {
-            return true;
+            if (Objects.equals(bugStatus, "resolved") | (Objects.equals(bugStatus, "closed"))) {
+                System.out.println("баг закрыт");
+            }
         }
+        return true;
     }
 
     public void skipIfNotFixed(int issueId) throws MalformedURLException, ServiceException, RemoteException {
