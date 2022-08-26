@@ -33,5 +33,7 @@ public class ContactAddInGroupTests extends TestBase {
         Contacts before = app.db().contacts();
         app.goTo().gotoContactHome();
         app.contact().addContactInGroup(before.iterator().next());
+        Contacts after = app.db().contacts();
+        assertThat(after.size(),  equalTo(before.size()));
     }
 }
