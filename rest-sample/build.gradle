@@ -13,8 +13,19 @@ dependencies {
     implementation("io.rest-assured:rest-assured:5.1.1")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api-parent:2.3.2")
     implementation('org.glassfish.jaxb:jaxb-runtime:2.3.2')
+
 }
 
+test {
+    useTestNG {
+        suites 'src/test/resources/testng.xml'
+    }
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
 
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
 
-
+}
