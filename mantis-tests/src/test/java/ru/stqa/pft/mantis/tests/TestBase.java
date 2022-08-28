@@ -43,13 +43,13 @@ public class TestBase {
                 (Objects.equals(bugStatus, "acknowledged")) | (Objects.equals(bugStatus, "assigned"))
                 | (Objects.equals(bugStatus, "confirmed"))) {
             System.out.println("баг не закрыт");
-            return false;
+            return true;
         } else {
             if (Objects.equals(bugStatus, "resolved") | (Objects.equals(bugStatus, "closed"))) {
                 System.out.println("баг закрыт");
             }
         }
-        return true;
+        return false;
     }
 
     public void skipIfNotFixed(int issueId) throws MalformedURLException, ServiceException, RemoteException {
