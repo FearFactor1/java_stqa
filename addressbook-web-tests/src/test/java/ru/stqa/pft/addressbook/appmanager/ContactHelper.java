@@ -194,6 +194,25 @@ public class ContactHelper extends HelperBase {
         groupsPage(group.getName());
     }
 
+    public boolean checkGroup(int contact, GroupData group) {
+        selectGroupInContact(group.getName());
+        try {
+            wd.findElement(By.cssSelector(String.format("input[value='%s']", contact)));
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public boolean checkDeleteGroup(int contact) {
+        try {
+            wd.findElement(By.cssSelector(String.format("input[value='%s']", contact)));
+            return false;
+        } catch (NoSuchElementException e) {
+            return true;
+        }
+    }
+
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }

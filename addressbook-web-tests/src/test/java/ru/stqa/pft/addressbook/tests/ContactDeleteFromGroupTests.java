@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -44,5 +45,7 @@ public class ContactDeleteFromGroupTests extends TestBase {
         Contacts before = app.db().contacts();
         app.goTo().gotoContactHome();
         app.contact().deleteFromGroup(before.iterator().next(), groups.iterator().next());
+        Contacts after = app.db().contacts();
+        Assert.assertTrue(app.contact().checkDeleteGroup(after.iterator().next().getId()));
     }
 }

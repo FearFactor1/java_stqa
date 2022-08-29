@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -31,9 +32,10 @@ public class ContactAddInGroupTests extends TestBase {
     @Test
     public void testContactAddInGroup() throws Exception {
         Contacts before = app.db().contacts();
+        Groups groups = app.db().groups();
         app.goTo().gotoContactHome();
         app.contact().addContactInGroup(before.iterator().next());
         Contacts after = app.db().contacts();
-        assertThat(after.size(),  equalTo(before.size()));
+        Assert.assertTrue(app.contact().checkGroup(after.iterator().next().getId(), groups.iterator().next()));
     }
 }
