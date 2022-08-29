@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class SoapHelper {
 
-    private ApplicationManager app;
+    private static ApplicationManager app;
 
     public SoapHelper(ApplicationManager app) {
         this.app = app;
@@ -31,7 +31,7 @@ public class SoapHelper {
 
     public static MantisConnectPortType getMantisConnect() throws ServiceException, MalformedURLException {
         MantisConnectPortType mc = new MantisConnectLocator().getMantisConnectPort(new URL(
-                "http://localhost/mantisbt-2.25.5/api/soap/mantisconnect.php"));
+                app.getProperty("soap.url")));
         return mc;
     }
 
